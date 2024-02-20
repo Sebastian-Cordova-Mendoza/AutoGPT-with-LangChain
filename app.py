@@ -2,6 +2,7 @@
 from langchain.prompts import PromptTemplate
 from langchain import HuggingFaceHub
 from langchain.chains import LLMChain, SequentialChain
+from langchain.memory import ConversationBufferMemory
 import streamlit as st
 import os
 from dotenv import load_dotenv
@@ -10,24 +11,29 @@ load_dotenv()
 os.environ["HUGGINGFACEHUB_API_TOKEN"] = os.getenv('huggingface_token')
 
 
-st.title('🦜️🔗YouTube GPT Creator')
+st.title('🌼 Poem GPT Creator')
 prompt = st.text_input('Plug in your prompt here')
 
 # Prompt templates
 title_templete = PromptTemplate(
     input_variables=['topic'],
-    template = 'write me a youtube video title about {topic}'
+    template = 'write me a poem title about {topic}'
 )
 
 script_templete = PromptTemplate(
     input_variables=['title'],
-    template = 'write me a youtube video script base on this title: {title}'
+    template = 'write me a poem base on this title: {title}'
 )
+
+
+# Memory
+#memory = ConversationBufferMemory(input_key='topic', memory_key='chat_history')
+
 
 # Model
 @st.cache_resource
 def load_llm():
-    return HuggingFaceHub(repo_id="google/flan-t5-large", model_kwargs={"temperature": 1.0, "max_length": 512})
+    return HuggingFaceHub(repo_id="google/flan-t5-large", model_kwargs={"temperature": 1.0, "max_length": 100})
 
 # LLms
 llm = load_llm()
@@ -47,13 +53,15 @@ if prompt:
 
 
 
+
+
 #
 ## Bring in deps
 #import os
 #from dotenv import load_dotenv
 #import streamlit as st
 #from langchain.llms import huggingface_hub
-#from langchain.prompts import PromptTemplate
+#from langchain.prompts import PromptTemplat e
 #from langchain.chains import LLMChain, SequentialChain 
 #from langchain.memory import ConversationBufferMemory
 #from langchain.utilities import WikipediaAPIWrapper 
