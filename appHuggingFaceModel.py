@@ -11,7 +11,7 @@ load_dotenv()
 os.environ["HUGGINGFACEHUB_API_TOKEN"] = os.getenv('huggingface_token')
 
 
-st.title('🌼 Poem GPT Creator')
+st.title('Poem GPT Creator')
 prompt = st.text_input('Plug in your prompt here')
 
 # Prompt templates
